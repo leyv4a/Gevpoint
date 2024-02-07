@@ -1,21 +1,14 @@
 import React from 'react'
+import HeaderInventario from '../shared/headerInventario';
 import { FaWarehouse } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { MdMiscellaneousServices } from "react-icons/md";
 
+
 function Productos() {
   return (
     <main className='m-3' style={{"height" : "83vh"}}>
-      <h2 className='d-flex align-items-center gap-2'><FaWarehouse/> Inventario</h2>
-      <nav>
-        <ul className='nav align-items-center d-flex flex-row gap-3 '>
-          {/* <li><NavLink to={"/productos/inicio"}>Inicio</NavLink></li> */}
-          <li>Registrar entrada
-          </li>
-          <li>Registrar producto</li>
-          <li>Registrar categoria</li>
-        </ul>
-      </nav>
+     <HeaderInventario isInventario={true}><FaWarehouse/>Inventario</HeaderInventario>
       <hr/>
       <div className='mt-2 bg-light h-100 overflow-y-scroll'>
         <table className="table table-striped">
