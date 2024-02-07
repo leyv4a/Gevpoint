@@ -1,34 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react'
+import Sidebar from './components/shared/sidebar'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Route, Routes} from "react-router-dom";
+import Productos from "./components/pages/productos";
+import Dashboard from "./components/pages/Dashboard";
+import ProductosEntradas from "./components/pages/ProductosEntradas";
+
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+     <div className='container-fluid bg-dark-subtle '>
+     <div className='row'> 
+        <div className='col-auto bg-dark col-md-1 order-first min-vh-100 border-end border-3 border-light' style={{"--bs-border-opacity": ".5"}}>
+            <Sidebar/>
+        </div>
+        <div className='col-auto col-md-11 order-last'>
+          <Routes>
+            <Route path="/productos" element={<Productos/>}/>
+            <Route path="/dashboard" element={<Dashboard/>}/>
+            <Route path="/productos/entradas" element={<ProductosEntradas/>}/>
+          </Routes>
+        </div>
+     </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
   )
 }
 
