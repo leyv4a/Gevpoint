@@ -1,10 +1,11 @@
 import React from 'react'
-import Sidebar from './components/shared/sidebar'
+import Sidebar from './components/shared/Sidebar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Route, Routes} from "react-router-dom";
 import Productos from "./components/pages/productos";
 import Dashboard from "./components/pages/Dashboard";
 import ProductosEntradas from "./components/pages/ProductosEntradas";
+import Ventas from "./components/pages/Ventas";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Route path="/productos" element={<Productos/>}/>
             <Route path="/dashboard" element={<Dashboard/>}/>
             <Route path="/productos/entradas" element={<ProductosEntradas/>}/>
+            <Route path="/ventas" element={<Ventas/>}/>
           </Routes>
         </div>
      </div>

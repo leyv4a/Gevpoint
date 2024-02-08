@@ -28,14 +28,17 @@ function ProductosEntradas() {
             <input type='text' className="form-control" disabled id="fecha" value={codigo.length == 0 ? " " :fechaActual}></input>
           </div>
           <div className='mb-3'> {
-            codigo.startsWith("A") || codigo.startsWith("a") ? 
-            <div><label className="form-label" >Cantidad</label>
+            codigo.startsWith("F") || codigo.startsWith("f") ? 
+            <div className="mb-3">
+              <label className="form-label">Cantidad (kg)</label>
+              <div className='d-flex flex-row gap-2 min-vw-25'>
+                <div className='w-50 fs-1 card text-center'><div>0</div></div>
+                <button className='w-50 btn btn-warning'>Pesar</button>
+              </div>
+            </div>
+            :<div><label className="form-label" >Cantidad (U)</label>
             <input type='number' className="form-control"/></div>
-            : " "
-          }</div>
-          <div className="mb-3">
-            <label  className="form-label">Example textarea</label>
-            <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+          }
           </div>
           </div>
           <div className='col-6'>2</div>

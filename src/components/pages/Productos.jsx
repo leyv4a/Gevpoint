@@ -7,10 +7,10 @@ import { MdMiscellaneousServices } from "react-icons/md";
 
 function Productos() {
   return (
-    <main className='m-3' style={{"height" : "83vh"}}>
+    <main className='m-3' >
      <HeaderInventario isInventario={true}><FaWarehouse/>Inventario</HeaderInventario>
       <hr/>
-      <div className='mt-2 bg-light h-100 overflow-y-scroll'>
+      <div className='mt-2 bg-light  overflow-y-scroll'>
         <table className="table table-striped">
          <thead className='sticky-top'>
             <tr>
