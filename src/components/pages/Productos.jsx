@@ -27,9 +27,9 @@ function Productos() {
 
   return (
     <main className='m-3'>
-     <HeaderInventario isInventario={true}><FaWarehouse/>Inventario</HeaderInventario>
+     <HeaderInventario><FaWarehouse/>Inventario</HeaderInventario>
       <hr/>
-      <div className='mt-2 bg-light' style={{overflowY: 'scroll', maxHeight: '75vh'}}>
+      <div className='mt-2 bg-light' style={{overflowY: 'scroll', maxHeight: '80vh'}}>
         <table className="table table-striped table-hover">
          <thead className='sticky-top'>
             <tr>

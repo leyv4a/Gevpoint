@@ -37,7 +37,10 @@ function Sidebar() {
                   <div id="collapseItems" className="mt-3">
                     <ul className="nav d-flex flex-column gap-2">
                       <li className="nav-item"><NavLink to={"/productos"} data-bs-toggle="tooltip" data-bs-title="Default tooltip" style={{"textDecoration": "none"}} className={"text-white"}>Stock</NavLink></li>
-                      <li className="nav-item"><NavLink to={"/productos/entradas"} data-bs-toggle="tooltip" data-bs-title="Default tooltip" style={{"textDecoration": "none"}} className={"text-white"}>R Entrada</NavLink></li>
+                      <li className="nav-item"><NavLink to={"/productos/entradas"} data-bs-toggle="tooltip" data-bs-title="Default tooltip" style={{"textDecoration": "none"}} className={"text-white"}>Entradas</NavLink></li>
+                      <li className="nav-item"><NavLink to={"/productos/salidas"} data-bs-toggle="tooltip" data-bs-title="Default tooltip" style={{"textDecoration": "none"}} className={"text-white"}>Salidas</NavLink></li>
+                      <li className="nav-item"><NavLink to={"/productos/agregar"} data-bs-toggle="tooltip" data-bs-title="Default tooltip" style={{"textDecoration": "none"}} className={"text-white"}>Productos</NavLink></li>
+                      <li className="nav-item"><NavLink to={"/productos/categorias"} data-bs-toggle="tooltip" data-bs-title="Default tooltip" style={{"textDecoration": "none"}} className={"text-white"}>Categorias</NavLink></li>
                     </ul>
                   </div>
                 </Collapse>

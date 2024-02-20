@@ -3,8 +3,9 @@ import Sidebar from './components/shared/Sidebar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Route, Routes} from "react-router-dom";
 import Productos from "./components/pages/Productos";
-import Dashboard from "./components/pages/Dashboard";
 import ProductosEntradas from "./components/pages/ProductosEntradas";
+import ProductosAgregar from "./components/pages/ProductosAgregar";
+import Dashboard from "./components/pages/Dashboard";
 import Ventas from "./components/pages/Ventas";
 
 
@@ -18,8 +19,9 @@ function App() {
         <div className='col-auto col-md-11 order-last ' style={{overflowY: 'hidden'}}   >
           <Routes>
             <Route path="/productos" element={<Productos/>}/>
-            <Route path="/dashboard" element={<Dashboard/>}/>
             <Route path="/productos/entradas" element={<ProductosEntradas/>}/>
+            <Route path="/productos/agregar" element={<ProductosAgregar/>}/>
+            <Route path="/dashboard" element={<Dashboard/>}/>
             <Route path="/ventas" element={<Ventas/>}/>
           </Routes>
         </div>

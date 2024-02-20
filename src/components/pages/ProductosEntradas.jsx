@@ -15,9 +15,9 @@ function ProductosEntradas() {
 
   return (
     <main className='m-3' style={{"height" : "83vh"}}>
-    <HeaderInventario isEntrada={true}><IoMdAddCircle/> Registrar Entradas</HeaderInventario>
+    <HeaderInventario ><IoMdAddCircle/> Registrar Entradas</HeaderInventario>
     <hr/>
-    <div className='mt-2 bg-light h-100 overflow-y-scroll'>
+    <div className='mt-2 bg-light h-100 overflow-y-hidden'>
       <div className='container-fluid'>
         <div className='row'>
           <div className='col-6 p-2'>
@@ -41,7 +41,9 @@ function ProductosEntradas() {
           }
           </div>
           </div>
-          <div className='col-6'>2</div>
+          <div className='col-6 position-relative ' style={{height : '83vh'}}>
+            <img src="/images/geverel.png" alt="Geverel" className='position-absolute top-50 start-50 translate-middle' style={{width : '95%'}} />
+          </div>
         </div>
       </div>
     </div>    
