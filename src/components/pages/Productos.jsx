@@ -11,7 +11,7 @@ function Productos() {
   const [productos, setProductos] = useState([]);
 
   const getProductos = (val) => {
-    Axios.get('http://localhost:3000/items')
+    Axios.get('http://localhost:3001/items')
    .then(response => {
         setProductos(response.data);
         console.log("Data readed successfully"+ response.data);
@@ -52,8 +52,8 @@ function Productos() {
                    <td>{producto.impuesto}</td>
                    <td>{producto.precio}</td>
                    <td>{producto.Categoria}</td>
-                   <td>{producto.cantidad}</td>
-                   <td><button className='btn btn-outline-warning'><MdEdit/></button></td>
+                   <td className={producto.cantidadActual>=producto.cantidadMinima ? 'text-danger' : ''}>{producto.cantidadActual}</td>
+                   <td><button className='btn btn-outline-dark'><MdEdit/></button></td>
                  </tr>
                )
              })

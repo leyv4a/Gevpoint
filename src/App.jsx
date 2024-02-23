@@ -11,7 +11,7 @@ import Ventas from "./components/pages/Ventas";
 
 function App() {
   return (
-     <div className='container-fluid bg-dark-subtle '>
+     <div className='container-fluid bg-dark-subtle d-sm-none d-none d-md-block d-lg-block d-xl-block'>
      <div className='row'> 
         <div className='col-auto bg-dark col-md-1 order-first border-end border-3 border-light' style={{"--bs-border-opacity": ".5", height: '100vh'}}>
             <Sidebar/>
