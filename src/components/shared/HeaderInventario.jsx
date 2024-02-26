@@ -10,7 +10,7 @@ function HeaderInventario({children}) {
           <li><NavLink style={{"textDecoration": "none"}} className={"text-dark"} to={"/productos"}>Inventario</NavLink></li>
           <li><NavLink style={{"textDecoration": "none"}} className={"text-dark"} to={"/productos/entradas"}>Registrar Entrada</NavLink></li>
           <li><NavLink style={{"textDecoration": "none"}} className={"text-dark"} to={"/productos/agregar"}>Registrar Producto</NavLink></li>
-          <li><NavLink style={{"textDecoration": "none"}} className={"text-dark"} to={"/productos/categoria"}>Registrar Categoria</NavLink></li>
+          <li><NavLink style={{"textDecoration": "none"}} className={"text-dark"} to={"/productos/categorias"}>Registrar Categoria</NavLink></li>
       </ul>
     </nav>
     </>

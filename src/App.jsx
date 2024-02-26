@@ -5,6 +5,7 @@ import {Route, Routes} from "react-router-dom";
 import Productos from "./components/pages/Productos";
 import ProductosEntradas from "./components/pages/ProductosEntradas";
 import ProductosAgregar from "./components/pages/ProductosAgregar";
+import Categorias from "./components/pages/Categorias";
 import Dashboard from "./components/pages/Dashboard";
 import Ventas from "./components/pages/Ventas";
 
@@ -21,6 +22,7 @@ function App() {
             <Route path="/productos" element={<Productos/>}/>
             <Route path="/productos/entradas" element={<ProductosEntradas/>}/>
             <Route path="/productos/agregar" element={<ProductosAgregar/>}/>
+            <Route path="/productos/categorias" element={<Categorias/>}/>
             <Route path="/dashboard" element={<Dashboard/>}/>
             <Route path="/ventas" element={<Ventas/>}/>
           </Routes>

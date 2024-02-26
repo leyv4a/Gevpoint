@@ -5,27 +5,25 @@ import { useState, useEffect} from 'react';
 import Axios from 'axios';
 export default function ProductosAgregar() {
 
+  //Guarda los valores del formulario
+  const [nombre, setNombre] = useState("");
+  const [precio, setPrecio] = useState(0);
+  const [minimo, setMinimo] = useState(0);
+  const [codigo, setCodigo] = useState(0);
+  const [categoria, setCategoria] = useState("");
+
   //Lista las categorias de la base de datos
   const [categorias, setCategorias] = useState([]);
   //Recupera el codigo en base a
-  const [codigo, setCodigo] = useState('');
-  const [unidad, setUnidad] = useState('');
+  const [inicialCodigo, setInicial] = useState('');
+  const [unidadMedida, setUnidad] = useState('');
  
+  //HACER UN SELECT BY ID PARA CONSULTAR LA INICIAL
   //Recupera los cambios del <Select> de categorias y asigna automaticamente el codigo y la unidad
   const handeChange = (e) =>{
-  var code = "";
-   var unidad = e.target.value;
-    if (unidad.includes("Frutas") && unidad.includes("U")){
-      setCodigo("M");
-      setUnidad('U');
-      console.log(codigo);
-    }else if (unidad.includes("Frutas") && !unidad.includes("U")) {
-      setCodigo("F");
-      setUnidad('kg');
-    }else{
-     console.log("A");
-     setUnidad('U');
-    }
+    setCategoria(e.target.value);
+  
+    console.log( categoria  );
   };
 
   //Recupera las categorias de la base de datos mediante una peticion get
@@ -48,7 +46,7 @@ export default function ProductosAgregar() {
                   <form>
                     <div className="mb-3">
                       <label className="form-label">Nombre</label>
-                      <input type="text" className="form-control" placeholder="Nombre" />
+                      <input type="text" className="form-control" onChange={(e) => {setNombre(e.target.value)}} placeholder="Nombre" />
                     </div>
                     <div className="mb-3">
                       <label className="form-label">Categoria</label>
@@ -56,7 +54,7 @@ export default function ProductosAgregar() {
                       }>
                         {
                           categorias.map((categoria, index) => (
-                            <option key={index} value={categoria.nombre}>{categoria.nombre}</option>
+                            <option key={index} value={categoria.id}>{categoria.nombre}</option>
                           ))
                         }
                       </select>
@@ -64,21 +62,53 @@ export default function ProductosAgregar() {
                     <div className="mb-3">
                       <label className="form-label">Codigo</label>
                       <div className="input-group mb-3">
-                        <span className="input-group-text" id="basic-addon1">{codigo}</span>
-                        <input type="text" className="form-control" placeholder="Ejemplo: 001" aria-label="Username" aria-describedby="basic-addon1"/>
+                        <span className="input-group-text" >{inicialCodigo}</span>
+                        <input type="text" className="form-control" onChange={(e)=>{setCodigo(inicialCodigo+e.target.value)}} placeholder="Ejemplo: 001" aria-label="Username" aria-describedby="basic-addon1"/>
                       </div>
                     </div>
-                    <div className="mb-3">
+                      <div className="d-flex gap-3 mb-3">
+                      <div>
                       <label className="form-label">Unidad</label>
-                      <input type="text" disabled className="form-control" value={unidad} />
+                      <div className="d-flex gap-2">
+                        <div className="form-check">
+                          <input className="form-check-input" type="radio" name="radioUnidad" id="kg" />
+                          <label className="form-check-label" htmlFor="kg">
+                            Kg
+                          </label>
+                        </div>
+                        <div className="form-check">
+                          <input className="form-check-input" type="radio" name="radioUnidad" id="unidad" />
+                          <label className="form-check-label" htmlFor='unidad'>
+                            Unidad
+                          </label>
+                        </div>
+                      </div>
                     </div>
-                    <div className="mb-3">
-                      <label className="form-label">Impuesto</label>
-                      <input type="text" className="form-control" placeholder="Impuesto" />
-                    </div>
+                        <div className="">
+                        <label className="form-label">Stock Min.</label>
+                         <input type="number" pattern="^[0-9]+(\.[0-9]+)?$" onChange={(e)=>{setMinimo(e.target.value)}} className="form-control" />
+                        </div>
+                      <div >
+                        <label className="form-label">Impuesto</label>
+                        <div className="d-flex gap-2">
+                        <div className="form-check">
+                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="noAplica" defaultChecked/>
+                        <label className="form-check-label" htmlFor="noAplica">
+                          N/A
+                        </label>
+                      </div>
+                      <div className="form-check">
+                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="radioIva" disabled/>
+                        <label className="form-check-label" htmlFor='radioIva'>
+                          15%
+                        </label>
+                      </div>
+                        </div>
+                      </div>
+                      </div>
                     <div className="mb-3">
                       <label className="form-label">Precio</label>
-                      <input type="text" className="form-control" placeholder="Precio" />
+                      <input type="number" className="form-control" onChange={(e)=>{setPrecio(e.target.value)}} placeholder="Precio"/>
                     </div>
                     <div className="d-grid">
                     <button type='submit' className='btn btn-success'>Agregar</button>
