@@ -5,6 +5,7 @@ import { useState, useEffect} from 'react';
 import Axios from 'axios';
 export default function ProductosAgregar() {
 
+
   //Guarda los valores del formulario
   const [nombre, setNombre] = useState('');
   const [precio, setPrecio] = useState(0);
@@ -18,7 +19,8 @@ export default function ProductosAgregar() {
   const [categorias, setCategorias] = useState([]);
   //Guarda los productos de la base de datos
   const [productos, setProductos] = useState([]);
-  const [editarProducto, setEditarProductos] = useState(false); //
+  const [editarProducto, setEditarProductos] = useState(false); 
+  const [id, setId] = useState(0);
 
   //Recupera el codigo en base a la categoria
   const [inicialCodigo, setInicialCodigo] = useState("");
@@ -34,13 +36,23 @@ export default function ProductosAgregar() {
     setInicialCodigo('');
   }
 
+ 
+
   const editarProductos = (producto) =>{
     setEditarProductos(true)
     setNombre(producto.nombre);
     setCodigo(producto.codigo.substr(1));
     setMinimo(producto.cantidadMinima);
     setPrecio(producto.precio);
-
+    setId(producto.id);
+    setInicialCodigo(producto.codigo.charAt(0));
+    setUnidad(producto.unidad); // Establece la unidad
+  }
+  const eliminarProducto = (id) =>{
+    Axios.delete(`http://localhost:3001/productos/${id}`).then(alert('Producto eliminado con exito'));
+    setEditarProductos(false);
+    setId(0);
+    limpiarCampos();
   }
  
   //Hace una peticion POST la servidor para agregar un registro
@@ -62,9 +74,37 @@ export default function ProductosAgregar() {
       precio: precio,
       cantidadMinima: minimo,
       categoria: categoria
-    }).then(()=>{ limpiarCampos(); alert("Producto agregado con exito") }).catch(error => console.log(error));
+    }).then(()=>{ limpiarCampos(); alert("Producto agregado con exito"); getProductos() }).catch(error => alert(error.message));
   }
   }
+//Hace una peticion PUT para actualizar los registros de la base de datos
+const updateProducto = () => {
+  var code = inicialCodigo+codigo;
+  if ( nombre.trim() === '' ||
+    precio === null ||
+    minimo === null ||
+    codigo === null ||
+    categoria === null ||
+    unidadMedida.trim() === '' ) { 
+      alert("Llena todos los campos");
+      return
+    }else if(categoria === 0 ){
+      alert("Seleccione una categoria");
+      return
+    }else{
+  Axios.put('http://localhost:3001/items',{
+    nombre: nombre,
+    codigo: code,
+    unidad: unidadMedida,
+    impuesto : impuesto,
+    precio: precio,
+    cantidadMinima: minimo,
+    categoria: categoria,
+    id: id
+  }).then(()=>{alert("Producto actualizado con exito"); getProductos(); limpiarCampos() }).catch(error => console.log(error));
+}
+}
+
 //Recupera los productos de la base de datos mediante una peticion get
   const getProductos = (val) => {
     Axios.get('http://localhost:3001/items')
@@ -85,7 +125,7 @@ export default function ProductosAgregar() {
   //Recupera la categoria por id
   const getCategoriaId = (val) =>{
     Axios.get(`http://localhost:3001/category/${categoria}`).then(response => {
-    setInicialCodigo(Array.isArray(response.data) ? response.data[0].nombre.charAt(0): " s ")
+    setInicialCodigo(Array.isArray(response.data) ? response.data[0].nombre.charAt(0): "  ")
   }).catch(error => console.log(error));
   };
 
@@ -113,7 +153,7 @@ export default function ProductosAgregar() {
                     </div>
                     <div className="mb-3">
                       <label className="form-label">Categoria</label>
-                      <select value={categoria ? categoria.id : "0"} className='form-select' onChange={(e)=>{setCategoria(parseFloat(e.target.value))}} >
+                      <select value={categoria ? categoria.id : 0} className='form-select' onChange={(e)=>{setCategoria(parseFloat(e.target.value))}} >
                         <option value="0" disabled > ----Seleccione una categoria ----</option>
                         {
                           categorias.map((cat) => (
@@ -126,7 +166,7 @@ export default function ProductosAgregar() {
                       <label className="form-label">Codigo</label>
                       <div className="input-group mb-3">
                         <span className="input-group-text" >{inicialCodigo}</span>
-                        <input type="text" className="form-control" value={codigo} onChange={(e)=>{setCodigo(inicialCodigo+e.target.value)}} placeholder="Ejemplo: 001" aria-label="Username" aria-describedby="basic-addon1"/>
+                        <input type="text" className="form-control" value={codigo} onChange={(e)=>{setCodigo(e.target.value)}} placeholder="Ejemplo: 001" aria-label="Username" aria-describedby="basic-addon1"/>
                       </div>
                     </div>
                       <div className="d-flex gap-3 mb-3">
@@ -176,7 +216,7 @@ export default function ProductosAgregar() {
                     {
                       editarProducto ?
                      <div className="d-flex gap-2">
-                       <button type='submit' className='btn btn-warning px-5' >Editar</button>
+                       <button type='submit' className='btn btn-warning px-5' onClick={updateProducto}>Editar</button>
                       <button  className='btn btn-primary px-5' onClick={()=>{setEditarProductos(false); limpiarCampos()}}>Cancelar</button>
                      </div>
                       :
@@ -190,12 +230,12 @@ export default function ProductosAgregar() {
             <tr>
                 <th scope="col">Nombre</th>
                 <th scope="col">Codigo</th>
-                <th scope="col">Unidad</th>
+                {/* <th scope="col">Unidad</th>
                 <th scope="col">Impuesto</th>
-                <th scope="col">Precio</th>
+                <th scope="col">Precio</th> */}
                 <th scope="col">Categoria</th>
-                <th scope="col">Cantidad Min.</th>
-                <th scope="col"><MdMiscellaneousServices/></th>
+                {/* <th scope="col-2">Stock. Min</th> */}
+                <th scope="col"><p className='fs-5'><MdMiscellaneousServices/></p></th>
             </tr>
          </thead>
          <tbody >
@@ -205,13 +245,14 @@ export default function ProductosAgregar() {
                  <tr key={producto.id}>
                    <td>{producto.nombre}</td>
                    <td>{producto.codigo}</td>
-                   <td>{producto.unidad}</td>
+                   {/* <td>{producto.unidad}</td>
                    <td>{producto.impuesto == 0 ? "N/A" : producto.impuesto}</td>
-                   <td>{producto.precio}</td>
+                   <td>{producto.precio}</td> */}
                    <td>{producto.Categoria}</td>
-                   <td >{producto.cantidadMinima}</td>
-                   <td>
-                    <button onClick={()=>{editarProductos(producto)}}>Editar</button>
+                   {/* <td >{producto.cantidadMinima}</td> */}
+                   <td className='d-flex flex-row gap-1'>
+                    <button className='btn btn-outline-warning btn-sm' onClick={()=>{editarProductos(producto)}}>Editar</button>
+                    <button className='btn btn-outline-danger btn-sm' onClick={()=>{eliminarProducto(producto.id)}}>Eliminar</button>
                    </td>
                  </tr>
                )

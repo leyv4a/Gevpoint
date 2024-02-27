@@ -2,6 +2,7 @@ import React from "react";
 import { IoIosSpeedometer } from "react-icons/io";
 import { FaTag, FaShoppingCart } from "react-icons/fa";
 import {Link, NavLink } from "react-router-dom";
+import { TbCoinFilled } from "react-icons/tb";
 import Gevpoint from "../../../public/gevpoint.svg";
 import { useState } from 'react';
 import Collapse from 'react-bootstrap/Collapse';
@@ -45,6 +46,7 @@ function Sidebar() {
                   </div>
                 </Collapse>
               </li>
+              <li><NavLink to={"/monedero"} data-bs-toggle="tooltip" data-bs-title="Default tooltip"> <TbCoinFilled className="fs-2 text-white"/></NavLink></li>
          </ul>
         </div>
         </div>
