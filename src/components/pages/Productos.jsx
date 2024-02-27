@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import HeaderInventario from '../shared/headerInventario';
 import { FaWarehouse } from "react-icons/fa";
-import { MdEdit } from "react-icons/md";
-import { MdMiscellaneousServices } from "react-icons/md";
+
 import Axios from 'axios';
 
 
@@ -35,11 +34,11 @@ function Productos() {
             <tr>
                 <th scope="col">Nombre</th>
                 <th scope="col">Codigo</th>
+                <th scope="col">Unidad</th>
                 <th scope="col">Impuesto</th>
                 <th scope="col">Precio</th>
                 <th scope="col">Categoria</th>
                 <th scope="col">Cantidad</th>
-                <th scope="col" className='fs-4'><MdMiscellaneousServices/></th>
             </tr>
          </thead>
          <tbody >
@@ -49,11 +48,11 @@ function Productos() {
                  <tr key={producto.id}>
                    <td>{producto.nombre}</td>
                    <td>{producto.codigo}</td>
-                   <td>{producto.impuesto}</td>
+                   <td>{producto.unidad}</td>
+                   <td>{producto.impuesto == 0 ? "N/A" : producto.impuesto}</td>
                    <td>{producto.precio}</td>
                    <td>{producto.Categoria}</td>
-                   <td className={producto.cantidadActual>=producto.cantidadMinima ? 'text-danger' : ''}>{producto.cantidadActual}</td>
-                   <td><button className='btn btn-outline-dark'><MdEdit/></button></td>
+                   <td className={producto.cantidadActual <= producto.cantidadMinima ? 'text-danger' : ''}>{producto.cantidadActual}</td>
                  </tr>
                )
              })

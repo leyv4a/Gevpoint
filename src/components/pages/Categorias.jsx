@@ -11,7 +11,7 @@ export default function Categorias() {
     const agregarCategoria = ()=>{
         Axios.post("http://localhost:3001/category", {
             nombre: nombre
-        }).then(alert('Entrada agregada con exito'));
+        }).then(alert('Entrada agregada con exito')).catch(error => console.log(error));
 
     }
 
