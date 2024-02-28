@@ -4,6 +4,7 @@ import { MdMiscellaneousServices } from "react-icons/md";
 import { BiSolidCategory } from "react-icons/bi";
 import { useState, useEffect } from "react";
 import Axios from "axios";
+import Swal from 'sweetalert2';
 
 export default function Categorias() {
 
@@ -27,33 +28,85 @@ export default function Categorias() {
       setId(categoria.id);
     }
 
-    const eliminarProducto = (id)=>{
-      Axios.delete(`http://localhost:3001/category/${id}`).then(alert('Categoria eliminada con exito')).catch(error => console.log(error));
-      limpiarCampos();
-      getCategorias();
+    const eliminarCategoria = (id)=>{
+      Swal.fire({
+        icon: 'question',
+        title: `<p>¿Quieres eliminar la categoria <b>${nombre}</b>?</p>`,
+        showDenyButton: true,
+        confirmButtonText: "Cancelar",
+        denyButtonText: `Eliminar`,
+        confirmButtonColor: "#198754",
+        denyButtonColor: "#d33",
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          Swal.fire({
+            position: "center",
+            icon: "info",
+            title: "Categoria no eliminada",
+            showConfirmButton: false,
+            timer: 1500
+          });
+        } else if (result.isDenied) {
+          Axios.delete(`http://localhost:3001/category/${id}`).then(()=>{Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Categoria eliminada.",
+            showConfirmButton: false,
+            timer: 1500
+          }); limpiarCampos();  getCategorias(); }).catch(error => console.log(error));
+        }
+      });
     }
 
     const updateCategorias = ()=>{
       if (nombre.trim() === '') {
-        alert('Debe llenar el campo nombre')
+        Swal.fire({
+          title: "¡Debe llenar el campo nombre!",
+          icon: "info",
+          showConfirmButton: false,
+          timer: 1000
+        });
         return;
       }else if(id == 0){
-        alert('Seleccione una categoria');
+        Swal.fire({
+          title: "¡Seleccione una categoria!",
+          icon: "info",
+          showConfirmButton: false,
+          timer: 1000
+        });
         return;
       }else{
         Axios.put('http://localhost:3001/category',{
           nombre: nombre,
           id: id
-        }).then(()=>{alert('Categoria actualizada con exito'); getCategorias(); limpiarCampos()}).catch(error=> console.log(error));
+        }).then(()=>{Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Categoria actualizada correctamente.",
+          showConfirmButton: false,
+          timer: 1500
+        }); getCategorias(); limpiarCampos()}).catch(error=> console.log(error));
       }
     }
     //Hace una peticion post a la base de datos para agregar una categoria
     const agregarCategoria = ()=>{
       nombre == "" ? 
-      alert("Debes ingresar un nombre para la categoria") :
+      Swal.fire({
+        title: "¡Debe llenar el campo nombre!",
+        icon: "info",
+        showConfirmButton: false,
+        timer: 1000
+      }):
         Axios.post("http://localhost:3001/category", {
             nombre: nombre
-        }).then(()=>{limpiarCampos(); getCategorias(); alert('Entrada agregada con exito')}).catch(error => console.log(error));
+        }).then(()=>{limpiarCampos(); getCategorias(); Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Categoria agregada correctamente.",
+          showConfirmButton: false,
+          timer: 1500
+        })}).catch(error => console.log(error));
     }
 
     //Hace una peticion get a la base de datos para recuperar las categorias
@@ -70,7 +123,7 @@ export default function Categorias() {
   return (
     <main className="m-3" style={{ height: "83vh" }}>
       <HeaderInventario>
-        <BiSolidCategory /> Agregar productos
+        <BiSolidCategory /> Agregar categoria
       </HeaderInventario>
       <hr />
       <div className="mt-2 bg-light h-100">
@@ -121,7 +174,7 @@ export default function Categorias() {
                    <td>{categoria.nombre}</td>
                    <td className='d-flex flex-row gap-1'>
                     <button className='btn btn-outline-warning' onClick={()=>{updateCategoria(categoria)}}>Editar</button>
-                    <button className='btn btn-outline-danger ' onClick={()=>{eliminarProducto(categoria.id)}}>Eliminar</button>
+                    <button className='btn btn-outline-danger ' onClick={()=>{eliminarCategoria(categoria.id)}}>Eliminar</button>
                    </td>
                  </tr>
                )

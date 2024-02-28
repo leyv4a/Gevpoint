@@ -3,6 +3,7 @@ import HeaderInventario from '../shared/headerInventario'
 import { MdCreateNewFolder, MdMiscellaneousServices } from "react-icons/md";
 import { useState, useEffect} from 'react';
 import Axios from 'axios';
+import Swal from 'sweetalert2';
 export default function ProductosAgregar() {
 
 
@@ -48,13 +49,35 @@ export default function ProductosAgregar() {
     setInicialCodigo(producto.codigo.charAt(0));
     setUnidad(producto.unidad); // Establece la unidad
   }
-  const eliminarProducto = (id) =>{
-    console.log(id)
-    Axios.delete(`http://localhost:3001/items/${id}`).then(alert('Producto eliminado con exito'));
-    setEditarProductos(false);
-    setId(0);
-    limpiarCampos();
-    getProductos();
+  const eliminarProducto = (id, nombre_producto) =>{
+    Swal.fire({
+      icon: 'question',
+      title: `<p>¿Quieres eliminar el producto <b>${nombre_producto}</b>?</p>`,
+      showDenyButton: true,
+      confirmButtonText: "Cancelar",
+      denyButtonText: `Eliminar`,
+      confirmButtonColor: "#198754",
+      denyButtonColor: "#d33",
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        Swal.fire({
+          position: "center",
+          icon: "info",
+          title: "Producto no eliminado",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      } else if (result.isDenied) {
+    Axios.delete(`http://localhost:3001/items/${id}`).then(()=>{Swal.fire({
+      position: "center",
+      icon: "success",
+      title: `Producto ${nombre_producto} eliminado`,
+      showConfirmButton: false,
+      timer: 1500
+    }); limpiarCampos();  setEditarProductos(false);setId(0); getProductos();}).catch(error => console.log(error));
+  }
+});
   }
  
   //Hace una peticion POST la servidor para agregar un registro
@@ -65,12 +88,22 @@ export default function ProductosAgregar() {
     codigo === null ||
     categoria === null ||
     unidadMedida.trim() === '' ) { 
-      alert("Llena todos los campos");
+      Swal.fire({
+        title: "¡Debe llenar todos los campos!",
+        icon: "info",
+        showConfirmButton: false,
+        timer: 1000
+      });
       return
     }else if (codigo.length > 4) {
-      alert("El codigo debe tener maximo 3 digitos");
+      Swal.fire({
+        title: "¡El codigo debe tener maximo 3 digitos!",
+        icon: "info",
+        showConfirmButton: false,
+        timer: 1000
+      });
       return
-    }{
+    } else {
     Axios.post('http://localhost:3001/items', {
       nombre: nombre,
       codigo: inicialCodigo+codigo,
@@ -79,7 +112,18 @@ export default function ProductosAgregar() {
       precio: precio,
       cantidadMinima: minimo,
       categoria: categoria
-    }).then(()=>{ limpiarCampos(); alert("Producto agregado con exito"); getProductos() }).catch(error => alert(error.message));
+    }).then(()=>{ limpiarCampos(); Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Producto agregada correctamente.",
+      showConfirmButton: false,
+      timer: 1500
+    }); getProductos() }).catch(error => Swal.fire({
+      title: `Error ${error.message}`,
+      icon: "error",
+      showConfirmButton: false,
+      timer: 1000
+    }));
   }
   }
 //Hace una peticion PUT para actualizar los registros de la base de datos
@@ -91,10 +135,20 @@ const updateProducto = () => {
     codigo === null ||
     categoria === null ||
     unidadMedida.trim() === '' ) { 
-      alert("Llena todos los campos");
+      Swal.fire({
+        title: "¡Debe llenar todos los campos!",
+        icon: "info",
+        showConfirmButton: false,
+        timer: 1000
+      });
       return
     }else if(categoria === 0 ){
-      alert("Seleccione una categoria");
+      Swal.fire({
+        title: "¡Seleccione una categoria!",
+        icon: "info",
+        showConfirmButton: false,
+        timer: 1000
+      });
       return
     }else{
   Axios.put('http://localhost:3001/items',{
@@ -106,7 +160,12 @@ const updateProducto = () => {
     cantidadMinima: minimo,
     categoria: categoria,
     id: id
-  }).then(()=>{alert("Producto actualizado con exito"); getProductos(); limpiarCampos() }).catch(error => console.log(error));
+  }).then(()=>{Swal.fire({
+    title: "¡Producto actualizado con exito!",
+    icon: "success",
+    showConfirmButton: false,
+    timer: 1000
+  }); getProductos(); limpiarCampos() }).catch(error => console.log(error));
 }
 }
 
@@ -256,7 +315,7 @@ const updateProducto = () => {
                    {/* <td >{producto.cantidadMinima}</td> */}
                    <td className='d-flex flex-row gap-1'>
                     <button className='btn btn-outline-warning btn-sm' onClick={()=>{editarProductos(producto)}}>Editar</button>
-                    <button className='btn btn-outline-danger btn-sm' onClick={()=>{eliminarProducto(producto.id)}}>Eliminar</button>
+                    <button className='btn btn-outline-danger btn-sm' onClick={()=>{eliminarProducto(producto.id, producto.nombre)}}>Eliminar</button>
                    </td>
                  </tr>
                )
