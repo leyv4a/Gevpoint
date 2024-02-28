@@ -8,10 +8,10 @@ export default function ProductosAgregar() {
 
   //Guarda los valores del formulario
   const [nombre, setNombre] = useState('');
-  const [precio, setPrecio] = useState(0);
-  const [minimo, setMinimo] = useState(0);
-  const [codigo, setCodigo] = useState(0);
-  const [categoria, setCategoria] = useState(0);
+  const [precio, setPrecio] = useState();
+  const [minimo, setMinimo] = useState();
+  const [codigo, setCodigo] = useState();
+  const [categoria, setCategoria] = useState();
   const [unidadMedida, setUnidad] = useState('');
   const impuesto = 0.0;
 
@@ -49,10 +49,12 @@ export default function ProductosAgregar() {
     setUnidad(producto.unidad); // Establece la unidad
   }
   const eliminarProducto = (id) =>{
-    Axios.delete(`http://localhost:3001/productos/${id}`).then(alert('Producto eliminado con exito'));
+    console.log(id)
+    Axios.delete(`http://localhost:3001/items/${id}`).then(alert('Producto eliminado con exito'));
     setEditarProductos(false);
     setId(0);
     limpiarCampos();
+    getProductos();
   }
  
   //Hace una peticion POST la servidor para agregar un registro
@@ -65,10 +67,13 @@ export default function ProductosAgregar() {
     unidadMedida.trim() === '' ) { 
       alert("Llena todos los campos");
       return
-    }else{
+    }else if (codigo.length > 4) {
+      alert("El codigo debe tener maximo 3 digitos");
+      return
+    }{
     Axios.post('http://localhost:3001/items', {
       nombre: nombre,
-      codigo: codigo,
+      codigo: inicialCodigo+codigo,
       unidad: unidadMedida,
       impuesto : impuesto,
       precio: precio,
@@ -110,7 +115,6 @@ const updateProducto = () => {
     Axios.get('http://localhost:3001/items')
    .then(response => {
         setProductos(response.data);
-        console.log("Data readed successfully"+ response.data);
       })
    .catch(error => {
         console.log(error);
@@ -261,7 +265,6 @@ const updateProducto = () => {
          </tbody>
         </table>
     </div>   
-
                 </div>
             </div>
         </div>

@@ -30,6 +30,8 @@ function ProductosEntradas() {
 }
 
   const addEntrada = ()=>{
+    unidades == 0 ? 
+    alert('Debe ingresar una cantidad') :
     Axios.post('http://localhost:3001/transaction',{
     producto_id: id_producto,
     tipo: tipo,
@@ -50,7 +52,6 @@ function ProductosEntradas() {
       <div className='container-fluid'>
         <div className='row'>
           <div className='col-6 p-2'>
-         <form onSubmit={addEntrada}>
          <div className="input-group mb-3">
             <span className="input-group-text" id="basic-addon1"></span>
             <input required onChange={(e)=>{actualizarFecha(); setCodigo(e.target.value) }} type="text" className="form-control me-2" placeholder="Codigo" aria-label="codigo" aria-describedby="basic-addon1"/>
@@ -71,9 +72,10 @@ function ProductosEntradas() {
           }
           </div>
           <div className="div">
-            <button type='submit'>Agregar entrada</button>
+            
+              <button className='btn btn-success' onClick={()=>{addEntrada()}}>Agregar entrada</button>
+            
           </div>
-         </form>
           </div>
 
           <div className='col-6 position-relative ' style={{height : '83vh'}}>
