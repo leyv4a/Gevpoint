@@ -9,6 +9,7 @@ import Monedero from './components/pages/Monedero';
 import Categorias from "./components/pages/Categorias";
 import Dashboard from "./components/pages/Dashboard";
 import Ventas from "./components/pages/Ventas";
+import ProductosSalidas from './components/pages/ProductosSalidas';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Routes>
             <Route path="/productos" element={<Productos/>}/>
             <Route path="/productos/entradas" element={<ProductosEntradas/>}/>
+            <Route path="/productos/salidas" element={<ProductosSalidas/>}/>
             <Route path="/productos/agregar" element={<ProductosAgregar/>}/>
             <Route path="/productos/categorias" element={<Categorias/>}/>
             <Route path="/dashboard" element={<Dashboard/>}/>

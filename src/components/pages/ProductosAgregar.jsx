@@ -142,7 +142,7 @@ const updateProducto = () => {
         timer: 1000
       });
       return
-    }else if(categoria === 0 ){
+    }else if(categoria === 0 || categoria == undefined || categoria == ''){
       Swal.fire({
         title: "¡Seleccione una categoria!",
         icon: "info",

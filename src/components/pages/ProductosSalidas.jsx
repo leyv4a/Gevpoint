@@ -1,22 +1,22 @@
 import {React, useState, useEffect} from 'react'
 import HeaderInventario from '../shared/headerInventario';
-import { IoMdAddCircle } from "react-icons/io";
+import { IoRemoveCircleSharp  } from "react-icons/io5";
 import { BsCalendar2DateFill } from "react-icons/bs";
 import Axios from 'axios';
 import Swal from 'sweetalert2';
 
-function ProductosEntradas() {
-  //Recupera los datos del formulario
+export default function ProductosSalidas() {
+     //Recupera los datos del formulario
   const [fechaActual, setFechaActual] = useState("");
   const [codigo, setCodigo] = useState("");
   const [unidades, setUnidades] = useState(0); 
   const [motivo, setMotivo] = useState("");
   //Guarda los campos recuperados de la base de datos
-  const [entradas, setEntradas] = useState([]);
+  const [salidas, setSalidas] = useState([]);
   const [id_producto, setId_producto] = useState(0);
 
   const [tipoUnidad, setTipoUnidad] = useState(false);
-  const tipo = 'Entrada';
+  const tipo = 'Salida';
 
   //Actualiza la fecha actual
   const actualizarFecha = () => {
@@ -37,9 +37,9 @@ function ProductosEntradas() {
   }
 
   //Hace una peticion GET a la API para recuperar los datos de la base de datos 
-  const getEntradas = (val) => {
-    Axios.get('http://localhost:3001/transaction/entradas').then(response=>{
-      setEntradas(response.data);
+  const getSalidas = (val) => {
+    Axios.get('http://localhost:3001/transaction/salidas').then(response=>{
+      setSalidas(response.data);
     }).catch(error => {
       Swal.fire({
         title: "¡Algo salio mal leyendo los registros!",
@@ -76,7 +76,7 @@ function ProductosEntradas() {
   }
 
   //Hace una peticion PUT para actualizar los registros de la base de datos
-  const addEntrada = ()=>{
+  const addSalida = ()=>{
     if (id_producto === 0 || id_producto == null || id_producto.length === 0 || id_producto === undefined) {
       Swal.fire({
         title: "¡Ingresa un codigo existente!",
@@ -102,10 +102,10 @@ function ProductosEntradas() {
     cantidad: unidades,
     fecha: fechaActual
     }).then(()=>{
-      getEntradas();
+      getSalidas();
       limpiarCampos();
       Swal.fire({
-        title: "¡Entrada registrada con exito!",
+        title: "¡Salida registrada con exito!",
         icon: "success",
         showConfirmButton: false,
         timer: 1000
@@ -122,12 +122,11 @@ function ProductosEntradas() {
   }
 
   useEffect(()=>{
-    getEntradas();
+    getSalidas();
   },[]);
-
   return (
     <main className='m-3' style={{"height" : "83vh"}}>
-    <HeaderInventario ><IoMdAddCircle/> Registrar Entradas</HeaderInventario>
+    <HeaderInventario ><IoRemoveCircleSharp /> Registrar Salidas</HeaderInventario>
     <hr/>
     <div className='mt-2 bg-light h-100 overflow-y-hidden'>
       <div className='container-fluid'>
@@ -157,12 +156,6 @@ function ProductosEntradas() {
           <label className="form-label">Motivo</label>
           <div className="d-flex gap-2 mb-3">
                         <div className="form-check">
-                          <input className="form-check-input" type="radio" name="radioUnidad" id="compra" value={"Compra"} onClick={(e)=>setMotivo(e.target.value)}/>
-                          <label className="form-check-label" htmlFor="kg">
-                            Compra
-                          </label>
-                        </div>
-                        <div className="form-check">
                           <input className="form-check-input" type="radio" name="radioUnidad" id="obsequio" value={"Obsequio"} onClick={(e)=>setMotivo(e.target.value)} />
                           <label className="form-check-label" htmlFor='unidad'>
                             Obsequio
@@ -176,7 +169,7 @@ function ProductosEntradas() {
                         </div>
                       </div>
           <div className="d-flex gap-2">
-              <button className='btn btn-success' onClick={()=>{ addEntrada()}}>Agregar entrada</button>
+              <button className='btn btn-success' onClick={()=>{ addSalida()}}>Registrar salida</button>
               <button className='btn btn-warning' onClick={()=>{limpiarCampos()}}>Cancelar</button>
           </div>
           
@@ -196,15 +189,15 @@ function ProductosEntradas() {
           </thead>
           <tbody >
             {
-              entradas.map(entrada => {
+              salidas.map(salida => {
                 return (
-                  <tr key={entrada.id}>
-                    <td>{entrada.nombre}</td>
-                    <td>{entrada.codigo}</td>
-                    <td>{entrada.motivo}</td>
-                    <td>{entrada.cantidad}</td>
-                    <td>{entrada.tipo}</td>
-                    <td>{entrada.fecha}</td>
+                  <tr key={salida.id}>
+                    <td>{salida.nombre}</td>
+                    <td>{salida.codigo}</td>
+                    <td>{salida.motivo}</td>
+                    <td>{salida.cantidad}</td>
+                    <td>{salida.tipo}</td>
+                    <td>{salida.fecha}</td>
                   </tr>
                 )
               })
@@ -219,4 +212,3 @@ function ProductosEntradas() {
   )
 }
 
-export default ProductosEntradas;

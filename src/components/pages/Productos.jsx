@@ -13,7 +13,6 @@ function Productos() {
     Axios.get('http://localhost:3001/items')
    .then(response => {
         setProductos(response.data);
-        console.log("Data readed successfully"+ response.data);
       })
    .catch(error => {
         console.log(error);
