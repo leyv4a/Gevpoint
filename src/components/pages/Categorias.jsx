@@ -158,7 +158,7 @@ export default function Categorias() {
                 </div>
             </div>
             <div className="col-6">
-            <div className='mt-2 bg-light' style={{overflowY: 'scroll', maxHeight: '80vh'}}>
+            <div className=' bg-light' style={{overflowY: 'scroll', maxHeight: '80vh'}}>
         <table className="table table-striped table-hover">
          <thead className='sticky-top'>
             <tr>

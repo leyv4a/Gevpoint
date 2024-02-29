@@ -5,7 +5,8 @@ import {Route, Routes} from "react-router-dom";
 import Productos from "./components/pages/Productos";
 import ProductosEntradas from "./components/pages/ProductosEntradas";
 import ProductosAgregar from "./components/pages/ProductosAgregar";
-import Monedero from './components/pages/Monedero';
+import Ingresos from './components/pages/Ingresos';
+import Egresos from './components/pages/Egresos';
 import Categorias from "./components/pages/Categorias";
 import Dashboard from "./components/pages/Dashboard";
 import Ventas from "./components/pages/Ventas";
@@ -28,7 +29,9 @@ function App() {
             <Route path="/productos/categorias" element={<Categorias/>}/>
             <Route path="/dashboard" element={<Dashboard/>}/>
             <Route path="/ventas" element={<Ventas/>}/>
-            <Route path="/monedero" element={<Monedero/>}/>
+            <Route path="/ingresos" element={<Ingresos/>}/>
+            <Route path="/egresos" element={<Egresos/>}/>
+
           </Routes>
         </div>
      </div>

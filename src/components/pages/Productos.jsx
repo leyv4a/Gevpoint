@@ -27,7 +27,7 @@ function Productos() {
     <main className='m-3'>
      <HeaderInventario><FaWarehouse/>Inventario</HeaderInventario>
       <hr/>
-      <div className='mt-2 bg-light' style={{overflowY: 'scroll', maxHeight: '80vh'}}>
+      <div className='bg-light' style={{overflowY: 'scroll', maxHeight: '80vh'}}>
         <table className="table table-striped table-hover">
          <thead className='sticky-top'>
             <tr>

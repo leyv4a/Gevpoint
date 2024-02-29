@@ -33,8 +33,8 @@ function Ventas() {
         </nav>
       </div>
       <div className="row">
-        <div className="col-md-8 mt-2">
-          <table className="table table-striped">
+        <div className="col-md-8 ">
+          <table className="table table-striped table-hover">
             <thead className="sticky-top">
               <tr>
                 <th scope="col">Cantidad</th>

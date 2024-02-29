@@ -1,6 +1,7 @@
 import React from "react";
 import { IoIosSpeedometer } from "react-icons/io";
-import { FaTag, FaShoppingCart } from "react-icons/fa";
+import { FaTag } from "react-icons/fa";
+import { HiBuildingStorefront } from "react-icons/hi2";
 import {Link, NavLink } from "react-router-dom";
 import { TbCoinFilled } from "react-icons/tb";
 import Gevpoint from "../../../public/gevpoint.svg";
@@ -9,6 +10,8 @@ import Collapse from 'react-bootstrap/Collapse';
 function Sidebar() {
   //Collapse inventario
   const [open, setOpen] = useState(false);
+  //Collapse monedero
+  const [openM, setOpenM] = useState(false);
 
   return (
         <div>
@@ -30,10 +33,10 @@ function Sidebar() {
             <hr className="text-white"/>
         <div className="mt-4">
           <ul className="nav nav-pills flex-column align-items-center text-white text-decoration-none gap-4">
-              <li><NavLink to={"/ventas"} data-bs-toggle="tooltip" data-bs-title="Default tooltip"><FaShoppingCart className="fs-2 text-white"/></NavLink></li>
+              <li><NavLink to={"/ventas"} data-bs-toggle="tooltip" data-bs-title="Default tooltip"><HiBuildingStorefront className="fs-3 text-white"/></NavLink></li>
               <li><NavLink to={"/dashboard"} data-bs-toggle="tooltip" data-bs-title="Default tooltip"><IoIosSpeedometer className="fs-2 text-white"/></NavLink></li>
               <li>
-              <a style={{"cursor" : "pointer"}}  onClick={() => setOpen(!open)} aria-controls="collapseItems" aria-expanded={open}><FaTag className="fs-3 text-white"/></a>
+              <a style={{"cursor" : "pointer"}}  onClick={() => {setOpen(!open); }} aria-controls="collapseItems" aria-expanded={open}><FaTag className="fs-3 text-white"/></a>
                 <Collapse in={open}>
                   <div id="collapseItems" className="mt-3">
                     <ul className="nav d-flex flex-column gap-2">
@@ -46,7 +49,19 @@ function Sidebar() {
                   </div>
                 </Collapse>
               </li>
-              <li><NavLink to={"/monedero"} data-bs-toggle="tooltip" data-bs-title="Default tooltip"> <TbCoinFilled className="fs-2 text-white"/></NavLink></li>
+
+              <li>
+              <a style={{"cursor" : "pointer"}}  onClick={() => {setOpenM(!openM);}} aria-controls="collapseItems" aria-expanded={open}><TbCoinFilled className="fs-2 text-white"/></a>
+                <Collapse in={openM}>
+                  <div id="collapseItems" className="mt-3">
+                    <ul className="nav d-flex flex-column gap-2">
+                      <li className="nav-item"><NavLink to={"/ingresos"} data-bs-toggle="tooltip" data-bs-title="Default tooltip" style={{"textDecoration": "none"}} className={"text-white"}>Ingresos</NavLink></li>
+                      <li className="nav-item"><NavLink to={"/egresos"} data-bs-toggle="tooltip" data-bs-title="Default tooltip" style={{"textDecoration": "none"}} className={"text-white"}>Egresos</NavLink></li>
+                      
+                    </ul>
+                  </div>
+                </Collapse>
+              </li>
          </ul>
         </div>
         </div>
