@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 
 export default function Ingresos() {
     const [ingresos, setIngresos] = useState([]);
+    
 
     const getIngresos = ()=>{
         Axios.get('http://localhost:3001/profit').then(response => {setIngresos(response.data)}).catch(
@@ -18,6 +19,16 @@ export default function Ingresos() {
               });}
         );
     }
+
+    
+    
+    const formatCurrencies = (currency) => { 
+        const formater = new Intl.NumberFormat('es-MX',{
+           style: 'currency',
+           currency: 'MXN'
+       })
+       return formater.format(currency);
+   }
 
     useEffect(()=>{
         getIngresos();
@@ -55,7 +66,7 @@ export default function Ingresos() {
                                     <tr key={ingreso.id}>
                                         <td>{ingreso.tipo}</td>
                                         <td>{ingreso.descripcion}</td>
-                                        <td>${ingreso.monto}</td>
+                                        <td>{formatCurrencies(ingreso.monto)}</td>
                                         <td>{ingreso.fecha}</td>
                                     </tr>
                                 );

@@ -24,6 +24,15 @@ export default function Egresos() {
         setFecha(fechaHora);
     }
     
+
+    const formatCurrencies = (currency) => { 
+         const formater = new Intl.NumberFormat('es-MX',{
+            style: 'currency',
+            currency: 'MXN'
+        })
+        return formater.format(currency);
+    }
+    
     const limpiarCampos = () => {
         setDescripcion('');
         setCantidad(0);
@@ -143,7 +152,7 @@ export default function Egresos() {
                                         <tr key={egreso.id}>
                                             <td>{egreso.tipo}</td>
                                             <td>{egreso.descripcion}</td>
-                                            <td>{egreso.monto}</td>
+                                            <td>{formatCurrencies(egreso.monto)}</td>
                                             <td>{egreso.fecha}</td>
                                         </tr>
                                     )

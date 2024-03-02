@@ -119,7 +119,7 @@ export default function ProductosAgregar() {
       showConfirmButton: false,
       timer: 1500
     }); getProductos() }).catch(error => Swal.fire({
-      title: `Error ${error.message}`,
+      title: `Error ${error}`,
       icon: "error",
       showConfirmButton: false,
       timer: 1000
@@ -229,7 +229,7 @@ const updateProducto = () => {
                       <label className="form-label">Codigo</label>
                       <div className="input-group mb-3">
                         <span className="input-group-text" >{inicialCodigo}</span>
-                        <input type="text" className="form-control" value={codigo} onChange={(e)=>{setCodigo(e.target.value)}} placeholder="Ejemplo: 001" aria-label="Username" aria-describedby="basic-addon1"/>
+                        <input type="number" pattern="[0-9]*" className="form-control" value={codigo} onChange={(e)=>{setCodigo(e.target.value)}} placeholder="Ejemplo: 001" aria-label="Username" aria-describedby="basic-addon1"/>
                       </div>
                     </div>
                       <div className="d-flex gap-3 mb-3">

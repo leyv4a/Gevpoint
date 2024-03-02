@@ -85,7 +85,7 @@ function ProductosEntradas() {
         timer: 1500
       });
       return;
-    } else if (unidades == 0 || codigo.trim == "" || motivo.trim == "" ) {
+    } else if (unidades == 0 || codigo.trim == "" || motivo.trim == "" ||motivo === "" || motivo.length == 0) {
       Swal.fire({
         title: "¡Debe ingresar todos los datos!",
         icon: "info",
