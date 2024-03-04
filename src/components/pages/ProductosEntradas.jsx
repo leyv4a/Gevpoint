@@ -17,6 +17,7 @@ function ProductosEntradas() {
 
   const [tipoUnidad, setTipoUnidad] = useState(false);
   const tipo = 'Entrada';
+  const [showCancelar, setShowCancelar] = useState(false);
 
   //Actualiza la fecha actual
   const actualizarFecha = () => {
@@ -34,6 +35,7 @@ function ProductosEntradas() {
     setId_producto(0);
     setMotivo("");
     setTipoUnidad(false);
+    setShowCancelar(false);
   }
 
   //Hace una peticion GET a la API para recuperar los datos de la base de datos 
@@ -63,6 +65,7 @@ function ProductosEntradas() {
         showConfirmButton: false,
         timer: 1000
       });
+      setShowCancelar(true);
       response.data[0].unidad == 'Kg'? setTipoUnidad(true) : setTipoUnidad(false);
     }).catch(error => {
       Swal.fire({
@@ -72,6 +75,7 @@ function ProductosEntradas() {
         showConfirmButton: false,
         timer: 1500
       });
+      setShowCancelar(false);
     })}
   }
 
@@ -119,6 +123,7 @@ function ProductosEntradas() {
         timer: 1000
       })
     });
+    setShowCancelar(false);
   }
 
   useEffect(()=>{
@@ -136,7 +141,7 @@ function ProductosEntradas() {
          <div className="input-group mb-3">
             <div className="input-group ">
               <input type="text" className="form-control" placeholder="Codigo" value={codigo} onChange={(e)=>{actualizarFecha(); setCodigo(e.target.value)}} />
-              <button className="btn btn-outline-secondary me-3" type="button" onClick={getIdByCode}>Buscar</button>
+              <button className="btn btn-outline-secondary me-3" type="button" onClick={()=> getIdByCode()}>Buscar</button>
               <label className="form-label me-2"><BsCalendar2DateFill/></label>
                 <input type='text' required className="form-control" disabled id="fecha" value={codigo.length == 0 ? " " :fechaActual}/>
             </div>
@@ -176,8 +181,13 @@ function ProductosEntradas() {
                         </div>
                       </div>
           <div className="d-flex gap-2">
-              <button className='btn btn-success' onClick={()=>{ addEntrada()}}>Agregar entrada</button>
+          <button className='btn btn-success' onClick={()=>{ addEntrada()}}>Agregar entrada</button>
+            {
+              showCancelar ? 
               <button className='btn btn-warning' onClick={()=>{limpiarCampos()}}>Cancelar</button>
+              :
+              ''
+            }
           </div>
           
           </div>

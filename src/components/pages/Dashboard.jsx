@@ -1,5 +1,4 @@
-import { TbCoinFilled } from "react-icons/tb";
-import { TbGraphFilled } from "react-icons/tb";
+import { FaChartArea } from "react-icons/fa";
 import Axios from 'axios';
 import Swal from 'sweetalert2';
 import { useState, useEffect } from "react";
@@ -63,7 +62,7 @@ function Dashboard() {
   return (
     <main className="m-3" style={{ height: "83vh" }}>
        <div className="encabezado mb-1 py-1 px-2">
-      <h2 className=""><TbGraphFilled/> Registro mensual {mes}</h2>
+      <h2 className=""><FaChartArea/> Registro mensual {mes}</h2>
         </div>
       <hr />
       <div className="mt-2 h-100">
