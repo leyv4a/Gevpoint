@@ -48,6 +48,9 @@ export default function ProductosAgregar() {
     setId(producto.id);
     setInicialCodigo(producto.codigo.charAt(0));
     setUnidad(producto.unidad); // Establece la unidad
+
+    setCategoria(producto.id_categoria);
+
   }
   const eliminarProducto = (id, nombre_producto) =>{
     Swal.fire({
@@ -165,7 +168,12 @@ const updateProducto = () => {
     icon: "success",
     showConfirmButton: false,
     timer: 1000
-  }); getProductos(); limpiarCampos() }).catch(error => console.log(error));
+  }); getProductos(); limpiarCampos() }).catch(Swal.fire({
+    title: "¡Revisa los datos!",
+    icon: "error",
+    showConfirmButton: false,
+    timer: 1500
+  }));
 }
 }
 
@@ -237,7 +245,7 @@ const updateProducto = () => {
                       <label className="form-label">Unidad</label>
                       <div className="d-flex gap-2">
                         <div className="form-check">
-                          <input className="form-check-input" type="radio" name="radioUnidad" id="kg" value={"Kg"} onClick={(e)=>setUnidad(e.target.value)}/>
+                          <input className="form-check-input" type="radio" defaultChecked name="radioUnidad" id="kg" value={"Kg"} onClick={(e)=>setUnidad(e.target.value)}/>
                           <label className="form-check-label" htmlFor="kg">
                             Kg
                           </label>

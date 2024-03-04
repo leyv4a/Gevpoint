@@ -9,6 +9,8 @@ function Ventas() {
 
   //Recupera los datos del formulario
   const [codigo, setCodigo] = useState(""); 
+  const [cambio, setCambio] = useState(0);
+  // const [feria, setFeria] = useEffect(0);
   //Variasbles por defecto
   const tipo = 'Ingreso';
   const descripcion ='Venta';
@@ -38,6 +40,46 @@ function Ventas() {
     setCarrito(nuevoCarrito);
   };
 
+  const handleFeria = (e) =>{
+    setCambio(e - totalSubtotales);
+  }
+
+  const handleEditarProducto = (productoId, productoCantidad) =>{
+    Swal.fire({
+      title: "Editar cantidad",
+      input: 'number',
+      inputValue: productoCantidad,
+      inputAttributes: {
+        min: 1,
+        step: 1,
+      },
+      showCancelButton: true,
+      confirmButtonText: "Guardar",
+      cancelButtonText: "Cancelar",
+      confirmButtonColor: "#198754",
+      cancelButtonColor: "#dc3545",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const nuevaCantidad = parseFloat(result.value);
+        if (!isNaN(nuevaCantidad)) {
+          // Actualizar la cantidad en el carrito
+          const nuevoCarrito = carrito.map((producto) =>
+            producto.id === productoId
+              ? { ...producto, cantidad: nuevaCantidad, subtotal: producto.precio * nuevaCantidad }
+              : producto
+          );
+          setCarrito(nuevoCarrito);
+        } else {
+          Swal.fire({
+            title: "Error",
+            text: "Ingrese una cantidad válida",
+            icon: "error",
+            confirmButtonColor: "#0d6efd",
+          });
+        }
+      }
+    });
+  }
 
   const getProductos = () => {
     Axios.get('http://localhost:3001/items').then(response => {
@@ -59,6 +101,26 @@ function Ventas() {
     setCodigo(e);
     setSelectDefault(0);
   }
+
+  const handleCancelar = ()=> {
+    if (carrito.length > 0) {
+      Swal.fire({
+        title: "¿Quieres cancelar la venta?",
+        showCancelButton: true,
+        confirmButtonText: "Cancelar venta",
+        cancelButtonText: "Seguir venta", 
+        confirmButtonColor : '#dc3545',
+        cancelButtonColor : '#198754'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          limpiarCampos();
+          setCarrito([]);
+        }});
+        return;
+    }
+   
+  }
+  
 
   const generarVenta = () => {
     if (totalSubtotales == NaN || totalSubtotales == 0 || totalSubtotales == undefined || totalSubtotales == null) {
@@ -348,7 +410,13 @@ function Ventas() {
                     <strong>Impuesto</strong>
                   </li>
                   <li className="mb-2">
+                    <strong>Pago con :</strong>
+                  </li>
+                  <li className="mb-2">
                     <strong>Total</strong>
+                  </li>
+                  <li className="mb-2">
+                    <strong>Cambio</strong>
                   </li>
                 </ul>
               </div>
@@ -365,14 +433,20 @@ function Ventas() {
                    $0
                   </li>
                   <li className="mb-2">
+                   <input className="me-3" onChange={(e)=> {handleFeria(e.target.value);}} type="number" />
+                  </li>
+                  <li className="mb-2">
                    <strong>{formatCurrencies(totalSubtotales)}</strong>
+                  </li>
+                  <li className="mb-2">
+                   <strong>{formatCurrencies(cambio)}</strong>
                   </li>
                 </ul>
               </div>
             </div>
             <div className="d-grid gap-2 p-2">
               <button className="btn btn-success" onClick={()=>{generarVenta()}}>Procesar</button>
-              <button className="btn btn-danger">Cancelar</button>
+              <button className="btn btn-danger" onClick={()=>handleCancelar()}>Cancelar</button>
             </div>
           </div>
         </div>
