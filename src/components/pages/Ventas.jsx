@@ -10,11 +10,11 @@ function Ventas() {
   //Recupera los datos del formulario
   const [codigo, setCodigo] = useState(""); 
   const [cambio, setCambio] = useState(0);
-  // const [feria, setFeria] = useEffect(0);
   //Variasbles por defecto
   const tipo = 'Ingreso';
   const descripcion ='Venta';
   const [fecha, setFecha] = useState('');
+  const [feria, setFeria] = useState(0);
 
   //Guarda los valores recuperados de la base de datos
   const [producto, setProducto] = useState("");
@@ -32,6 +32,7 @@ function Ventas() {
     setProducto("");
     setPrecio(0);
     setCantidad(0);
+    setFeria(0);
   }  
 
   const handleBorrarProducto = (productoId) => {
@@ -42,6 +43,7 @@ function Ventas() {
 
   const handleFeria = (e) =>{
     setCambio(e - totalSubtotales);
+    setFeria(e)
   }
 
   const handleEditarProducto = (productoId, productoCantidad) =>{
@@ -290,9 +292,9 @@ function Ventas() {
       //Actualiza la hora exacta al usar el formulario
       const actualizarFecha=()=>{
         var curr = new Date();
-        var fecha = curr.toLocaleDateString("es-MX"); // "23/02/2024"
-        var hora = curr.toLocaleTimeString("es-MX"); // "09:55:55"
-        var fechaHora = `${fecha} ${hora}`; // "23/02/2024 09:55:55"
+        var fecha = curr.toISOString().slice(0, 10); // "2024-02-23"
+        var hora = curr.toISOString().slice(11, 19); // "09:55:55"
+        var fechaHora = `${fecha} ${hora}`; // "2024-02-23 09:55:55"
         setFecha(fechaHora);
     }
   
@@ -433,7 +435,7 @@ function Ventas() {
                    $0
                   </li>
                   <li className="mb-2">
-                   <input className="me-3" onChange={(e)=> {handleFeria(e.target.value);}} type="number" />
+                   <input className="me-3" value={feria} onChange={(e)=> {handleFeria(e.target.value);}} type="number" />
                   </li>
                   <li className="mb-2">
                    <strong>{formatCurrencies(totalSubtotales)}</strong>

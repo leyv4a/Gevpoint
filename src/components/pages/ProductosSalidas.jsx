@@ -20,11 +20,11 @@ export default function ProductosSalidas() {
 
   //Actualiza la fecha actual
   const actualizarFecha = () => {
-      var curr = new Date();
-      var fecha = curr.toLocaleDateString("es-MX"); // "23/02/2024"
-      var hora = curr.toLocaleTimeString("es-MX"); // "09:55:55"
-      var fechaHora = `${fecha} ${hora}`; // "23/02/2024 09:55:55"
-      setFechaActual(fechaHora);
+    var curr = new Date();
+    var fecha = curr.toISOString().slice(0, 10); // "2024-02-23"
+    var hora = curr.toISOString().slice(11, 19); // "09:55:55"
+    var fechaHora = `${fecha} ${hora}`; // "2024-02-23 09:55:55"
+    setFechaActual(fechaHora);
   }
 
   //Devuelve las constantes a su valor por defecto
