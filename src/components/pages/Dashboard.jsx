@@ -1,8 +1,11 @@
 import { FaChartArea } from "react-icons/fa";
+import { FaCrown } from "react-icons/fa";
 import Axios from 'axios';
 import Swal from 'sweetalert2';
 import { useState, useEffect } from "react";
 import VentaMensual from '../charts/MesVenta';
+import TopCincoProductos from "../charts/TopCincoProductos";
+import MesVentaLine from "../charts/MesVentaLine";
 
 function Dashboard() {
 
@@ -10,8 +13,11 @@ function Dashboard() {
   const [mes, setMes] = useState('');
   const [gananciasB, setGananciasB] = useState(0);
   const [totales, setTotales] = useState(0);
+  
   const [gananciasN, setGananciasN] = useState(0);
   const [productoTop, setProductoTop] = useState([]);
+  const [ventaMensual, setVentaMensual] = useState([]);
+  const [topCinco, setTopCinco] = useState([]);
 
   const formatCurrencies = (currency) => { 
     const formater = new Intl.NumberFormat('es-MX',{
@@ -19,6 +25,36 @@ function Dashboard() {
        currency: 'MXN'
    })
    return formater.format(currency);
+}
+
+const getTopCinco = () =>{
+  Axios.get('http://localhost:3001/topcinco').then(response => {
+    setTopCinco(response.data);
+  }).catch(err=> {
+    Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "¡Algo salio mal!",
+      text : `${err.message}`,
+      showConfirmButton: false,
+      timer: 1500
+    });
+  });
+}
+
+const getVentaMensual = () =>{
+  Axios.get('http://localhost:3001/sale/daily').then(response=>{
+    setVentaMensual(response.data);
+  }).catch(error=>{
+    Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "¡Algo salio mal!",
+      text : `${error.message}`,
+      showConfirmButton: false,
+      timer: 1500
+    });
+  });
 }
 
   const getTotales = () => {
@@ -68,6 +104,8 @@ function Dashboard() {
   useEffect(()=>{
     getTotales();
     getMasVendido();
+    getVentaMensual();
+    getTopCinco();
   },[]);
 
   return (
@@ -79,47 +117,69 @@ function Dashboard() {
       <div className="mt-2 h-100">
         <div className="container-fluid">
           <div className="row">
-            <div className="col text-center mb-2 py-2 bg-primary" style={{height: '86vh'}}>
+            <div className="col text-center mb-2 py-2" style={{height: '83vh'}}>
              
-              <div className="cards-info d-flex gap-2 flex-column bg-danger" style={{width: '86vw'}}>
+              <div className="cards-info d-flex gap-2 flex-column" style={{width: '86vw'}}>
                 <div className="d-flex flex-row gap-4 justify-content-evenly">
                   <div className="card text-bg-light mb-3" style={{width: '25%',maxWidth: '25%'}}>
                   <div className="card-header fs-5">Ganancias brutas</div>
                   <div className="card-body">
-                    <h5 className="card-title fs-2">{formatCurrencies(gananciasB)}</h5>
+                    <h5 className="card-title fs-2"><strong>{formatCurrencies(gananciasB)}</strong></h5>
                   </div>
                   </div>
 
                   <div className="card text-bg-light mb-3" style={{width: '25%',maxWidth: '25%'}}>
                   <div className="card-header fs-5">Gastos totales</div>
                   <div className="card-body">
-                    <h5 className="card-title fs-2">{formatCurrencies(totales)}</h5>
+                    <h5 className="card-title fs-2"><strong>{formatCurrencies(totales)}</strong></h5>
                   </div>
                   </div>
 
                   <div className="card text-bg-light mb-3" style={{width: '25%',maxWidth: '25%'}} >
                   <div className="card-header fs-5">Ganancias netas</div>
                   <div className="card-body">
-                    <h5 className="card-title fs-2">{formatCurrencies(gananciasN)}</h5>
+                    <h5 className="card-title fs-2"><strong>{formatCurrencies(gananciasN)}</strong></h5>
                   </div>
                   </div>
 
                   <div className="card text-bg-light mb-3" style={{width: '25%',maxWidth: '25%'}}>
-                  <div className="card-header fs-5">Producto TOP</div>
+                  <div className="card-header fs-5">Margen </div>
                   <div className="card-body">
-                    <h5 className="card-title fs-3">{productoTop.Producto+ "  ("+ productoTop.TotalVendidoMes+")"}</h5>
+                    <h5 className="card-title fs-3"><strong>Margen de ganancia</strong></h5>
                   </div>
                   </div>
                 </div>
               </div>
-              <div className="bg-info d-flex" style={{width: '86vw'}}>
-                <VentaMensual/>
+
+
+              <div className=" d-flex" style={{width: '86vw'}}>
+                <VentaMensual data={ventaMensual}/>
+                {/* <MesVentaLine data={ventaMensual}/> */}
                 
-                {/* <div className="bg-success d-flex" style={{width: '50%'}}>
-                  <div className="" style={{width: '50%'}}>2</div>
-                  <div className="" style={{width: '50%'}}>1</div>
-                </div> */}
+                <div className="d-flex " style={{width: '40%'}}>
+                  <div className="" style={{width: '100%'}}>
+                    <div>
+                      <h3><strong>5 Productos mas vendidos</strong></h3>
+                    </div>
+                    <TopCincoProductos data={topCinco} />
+                    <div className="card text-bg-light mx-auto mt-3" style={{width: '95%',maxWidth: '95%'}}>
+                  <div className="fs-3 text-warning"><FaCrown /></div>
+                  <div className="card-body">
+                    <h5 className="card-title fs-2"><strong>{productoTop.Producto+ "  ("+ productoTop.TotalVendidoMes+")"}</strong></h5>
+                  </div>
+                  </div>
+                  </div>
+                </div>
               </div>
+                  <div className="d-flex gap-2 mt-2" style={{width: '100%', height: '10%'}}>
+                      <div  className="fs-1" style={{width: '20%'}}><span style={{width: '100%'}} class="badge text-bg-light">New</span></div>
+                      <div  className="fs-1" style={{width: '20%'}}><span style={{width: '100%'}} class="badge text-bg-light">New</span></div>
+                      <div  className="fs-1" style={{width: '20%'}}><span style={{width: '100%'}} class="badge text-bg-light">New</span></div>
+                      <div  className="fs-1" style={{width: '20%'}}><span style={{width: '100%'}} class="badge text-bg-light">New</span></div>
+                      <div  className="fs-1" style={{width: '20%'}}><span style={{width: '100%'}} class="badge text-bg-light">New</span></div>
+                  </div>
+             
+             
             </div>
           </div>
         </div>

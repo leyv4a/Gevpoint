@@ -1,19 +1,23 @@
 import React from 'react'
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-const data = [
-    {name: "María", age: 10, weight: 60},
-    {name: 'Karina', age: 25, weight: 70},
-    {name: 'Susana', age: 15, weight: 65},
-    {name: 'Pedro', age: 35, weight: 85},
-    {name: 'Felipe', age: 12, weight: 48},
-    {name: 'Laura', age: 30, weight: 69},
-    {name: 'Adrián', age: 15, weight: 78},
-]
+const CustomTooltip = ({ active, payload }) => {
+  if (active && payload && payload.length) {
+    const data = payload[0].payload;
+    return (
+      <div style={{ backgroundColor: '#fff', padding: '10px', border: '1px solid #ccc' }}>
+        <p>{`Dia: ${data.dia}`}</p>
+        <p>{`Total Vendido: ${data.ventas}`}</p>
+      </div>
+    );
+  }
+  return null;
+};
 
-function MesVenta() {
+
+function MesVenta({data}) {
   return (
-    <ResponsiveContainer width="50%" aspect={2}>
+    <ResponsiveContainer width="60%" aspect={2}>
     <BarChart 
         data={data}
         width={500}
@@ -25,13 +29,12 @@ function MesVenta() {
             bottom:5
         }}
     >
-    <CartesianGrid strokeDasharray="4 1 2" />    
-    <XAxis dataKey="name"/>
+    {/* <CartesianGrid strokeDasharray="4 1 2" />     */}
+    <XAxis dataKey="dia"/>
         <YAxis />
-        <Tooltip />
+        <Tooltip content={CustomTooltip} />
         <Legend />
-        <Bar dataKey="weight" fill="#6b48ff"/>
-        <Bar dataKey="age" fill="#1ee3cf"/>
+        <Bar dataKey="ventas" fill="#791682ff"/>
         </BarChart>
     </ResponsiveContainer>
   )
